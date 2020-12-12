@@ -15,10 +15,10 @@ First, run `busted_resty` in your `resty` entry file.
 -- this file will be called by: `resty busted_runner.lua`
 require "busted_resty"()
 
-require "busted_runner"()
+require "busted_runner"({ standalone = false })
 ```
 
-Then, clear call traces each time you run a `busted` unit test.
+Then, clear call traces every time you run a `busted` unit test.
 
 ```lua
 describe("this is a busted test block", function()
