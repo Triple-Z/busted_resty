@@ -4,9 +4,12 @@ An extra mocking layer for OpenResty in busted testing environment.
 
 <!-- omit in toc -->
 ## Table Of Contents
-- [Quick Start](#quick-start)
+- [Usage](#usage)
+- [Mocked API List](#mocked-api-list)
+- [Run Tests](#run-tests)
 - [License](#license)
-## Quick Start
+
+## Usage
 
 First, run `busted_resty` in your `resty` entry file.
 
@@ -15,7 +18,7 @@ First, run `busted_resty` in your `resty` entry file.
 -- this file will be called by: `resty busted_runner.lua`
 require "busted_resty"()
 
-require "busted_runner"({ standalone = false })
+require "busted.runner"({ standalone = false })
 ```
 
 Then, clear call traces every time you run a `busted` unit test.
@@ -36,6 +39,39 @@ describe("this is a busted test block", function()
         assert.stub(ngx.say).was_not_called()
     end)
 end)
+```
+
+## Mocked API List
+
+This module mocks the following OpenResty APIs:
+
+- ngx.status
+- ngx.exit
+- ngx.exec
+- ngx.redirect
+- ngx.send_headers
+- ngx.headers_sent
+- ngx.print
+- ngx.say
+- ngx.flush
+- ngx.eof
+- ngx.is_subrequest
+- ngx.on_abort
+- ngx.arg.*
+- ngx.var.*
+- ngx.header.*
+- ngx.location.*
+- ngx.req.*
+- ngx.resp.*
+
+## Run Tests
+
+```bash
+# Install dependencies
+$ luarocks --lua-version 5.1 install busted luacov
+
+# Run unit tests
+$ t/run_test.sh
 ```
 
 ## License

@@ -1,0 +1,26 @@
+describe("busted_resty module unit tests", function()
+
+    before_each(function()
+        require "busted_resty".clear()
+    end)
+
+    it("testing ngx disabled APIs", function()
+        assert.has_no.errors(function()
+            ngx.say("hello, world!")
+            ngx.print("hello")
+            ngx.flush()
+            ngx.eof()
+            ngx.exit()
+        end)
+
+        assert.stub(ngx.say).was_called()
+        assert.stub(ngx.print).was_called()
+        assert.stub(ngx.flush).was_called()
+        assert.stub(ngx.eof).was_called()
+        assert.stub(ngx.exit).was_called()
+    end)
+
+    it("the ngx calling tracing is isolated", function()
+        assert.stub(ngx.say).was_not_called()
+    end)
+end)

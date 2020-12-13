@@ -20,13 +20,13 @@ local function create_new_func_metatable(prefix)
         __index = function(tbl, key)
             tbl[key] = function() end
             tbl[key] = stub(tbl, key)
-            return t[key]
+            return tbl[key]
         end
     }
 end
 
 local function create_mock_ngx()
-    local _ngx = {
+    return {
         status = 0,
 
         -- vars
@@ -42,6 +42,10 @@ local function create_mock_ngx()
 end
 
 local function init_mocks(_ngx)
+    if type(_ngx) ~= "table" then
+        error("[busted_resty:init_mocks] _ngx is not a table")
+    end
+
     stub(_ngx, "exit")
     stub(_ngx, "exec")
     stub(_ngx, "redirect")
