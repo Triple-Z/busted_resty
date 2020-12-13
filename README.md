@@ -71,7 +71,8 @@ This module mocks the following OpenResty APIs:
 $ luarocks --lua-version 5.1 install busted luacov
 
 # Run unit tests
-$ t/run_test.sh
+$ cd t/
+$ ./run_test.sh
 ```
 
 ## License
