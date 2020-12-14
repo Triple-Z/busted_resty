@@ -2,10 +2,13 @@ local spy = require "luassert.spy"
 local stub = require "luassert.stub"
 
 local _M = {
+    --- @type busted_resty
     _VERSION = "0.5.0",
     _unmocked_ngx = nil,
 }
 
+--- create a metatable which return a mock string in its `__index` metamethod
+--- @return table a table for being a metatable
 local function create_new_var_metatable(prefix)
     return {
         __index = function(tbl, key)
@@ -15,6 +18,8 @@ local function create_new_var_metatable(prefix)
     }
 end
 
+--- create a metatable which return stubbed function in its `__index` metamethod
+--- @return table a table for being a metatable
 local function create_new_func_metatable(prefix)
     return {
         __index = function(tbl, key)
@@ -25,6 +30,8 @@ local function create_new_func_metatable(prefix)
     }
 end
 
+--- create a new ngx object for further mocking
+--- @return table new partially mocked ngx object
 local function create_mock_ngx()
     return {
         status = 0,
@@ -41,6 +48,8 @@ local function create_mock_ngx()
     }
 end
 
+--- init the mock objects for the target table
+--- @param _ngx table
 local function init_mocks(_ngx)
     if type(_ngx) ~= "table" then
         error("[busted_resty:init_mocks] _ngx is not a table")
@@ -64,6 +73,9 @@ local function init_mocks(_ngx)
     stub(_ngx.req, "http_version", 1.1)
 end
 
+--- clear all the calling traces for spy objects in a table, recursively
+--- @param tbl table target table (i.e. ngx)
+--- @return boolean cleared for true, tbl is not a table for false
 local function clear_spy_calls(tbl)
     if type(tbl) ~= "table" then
         return false
@@ -80,6 +92,7 @@ local function clear_spy_calls(tbl)
     return true
 end
 
+--- clear all calling traces if the `ngx` is mocked by this module.
 function _M.clear()
     if not _M._unmocked_ngx then
         return
@@ -88,12 +101,16 @@ function _M.clear()
     clear_spy_calls(_G.ngx)
 end
 
+--- restore `ngx` global object if mocked before
 function _M.restore()
     if _M._unmocked_ngx then
         _G.ngx = _M._unmocked_ngx
     end
 end
 
+--- init the busted_resty
+--- restore `ngx` global variable if mocked before.
+--- create new mocked `ngx` with `__index` metamethod.
 function _M.init()
     if not _M._unmocked_ngx then
         _M._unmocked_ngx = _G.ngx
@@ -108,6 +125,8 @@ function _M.init()
     })
 end
 
+-- create a callable module
+-- init this module by `require "busted_resty"()`
 return setmetatable(_M, {
     __call = function(self)
         self.init()

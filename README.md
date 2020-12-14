@@ -7,6 +7,7 @@ An extra mocking layer for OpenResty in busted testing environment.
 - [Usage](#usage)
 - [Mocked API List](#mocked-api-list)
 - [Run Tests](#run-tests)
+- [Test Coverage](#test-coverage)
 - [License](#license)
 
 ## Usage
@@ -72,6 +73,16 @@ $ luarocks --lua-version 5.1 install busted luacov
 
 # Run unit tests
 $ ./run_test.sh
+```
+
+## Test Coverage
+
+```
+File                 Hits Missed Coverage
+-----------------------------------------
+src/busted_resty.lua 52   11     82.54%
+-----------------------------------------
+Total                52   11     82.54%
 ```
 
 ## License
