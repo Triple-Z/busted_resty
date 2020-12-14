@@ -1,14 +1,24 @@
 <!-- omit in toc -->
 # busted_resty
-An extra mocking layer for OpenResty in busted testing environment.
+An extra mocking layer for OpenResty CLI Tool (resty) in busted testing environment.
+
+Writing pure Lua unit tests without mocking any OpenResty APIs which cannot be used in `ngx.timer.*` phase.
 
 <!-- omit in toc -->
 ## Table Of Contents
+- [Installation](#installation)
 - [Usage](#usage)
 - [Mocked API List](#mocked-api-list)
-- [Run Tests](#run-tests)
-- [Test Coverage](#test-coverage)
+- [Tests](#tests)
 - [License](#license)
+
+## Installation
+
+This module has been published in [LuaRocks](https://luarocks.org/modules/triple-z/busted_resty), you can easily install it via LuaRocks.
+
+```bash
+$ luarocks install busted_resty
+```
 
 ## Usage
 
@@ -65,24 +75,14 @@ This module mocks the following OpenResty APIs:
 - ngx.req.*
 - ngx.resp.*
 
-## Run Tests
+## Tests
+
+Run tests:
 
 ```bash
-# Install dependencies
-$ luarocks --lua-version 5.1 install busted luacov
-
-# Run unit tests
-$ ./run_test.sh
-```
-
-## Test Coverage
-
-```
-File                 Hits Missed Coverage
------------------------------------------
-src/busted_resty.lua 52   11     82.54%
------------------------------------------
-Total                52   11     82.54%
+# Install test dependencies, clean & reinstall busted_resty
+# Run the unit tests
+$ make test
 ```
 
 ## License
