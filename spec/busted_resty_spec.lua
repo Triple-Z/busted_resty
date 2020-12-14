@@ -4,6 +4,15 @@ describe("busted_resty module unit tests", function()
         require "busted_resty".clear()
     end)
 
+    it("init the busted_resty", function()
+        require "busted_resty".restore()
+        local unmocked_ngx = _G.ngx
+
+        require "busted_resty"()
+        assert.is_not_equal(unmocked_ngx, _G.ngx)
+        assert.is_equal(unmocked_ngx, getmetatable(_G.ngx).__index)
+    end)
+
     it("testing ngx disabled APIs", function()
         assert.has_no.errors(function()
             ngx.say("hello, world!")

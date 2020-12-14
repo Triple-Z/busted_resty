@@ -57,7 +57,7 @@ local function init_mocks(_ngx)
     stub(_ngx, "eof")
     stub(_ngx, "is_subrequest")
     stub(_ngx, "on_abort")
-    
+
     stub(_ngx.req, "get_headers", {})
     stub(_ngx.req, "get_uri_args", {})
     stub(_ngx.req, "get_method", "GET")
@@ -82,7 +82,7 @@ end
 
 function _M.clear()
     if not _M._unmocked_ngx then
-        return 
+        return
     end
 
     clear_spy_calls(_G.ngx)
